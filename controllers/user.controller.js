@@ -18,9 +18,7 @@ class userControllers {
         res.status(400).json({ error: "Email is incorrect" });
       }
     } catch (error) {
-      {
         res.status(500).json({ error: "Internal Server Error" });
-      }
     }
   };
 }
