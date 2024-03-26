@@ -5,5 +5,6 @@ const router = require('express').Router();
 router.post('/signup', userController.signup);
 router.post('/login', userController.login);
 router.get("/students-details", userController.students_details);
+router.get("/student/:id", userController.student);
 
 module.exports = router;

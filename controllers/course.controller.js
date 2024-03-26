@@ -28,7 +28,7 @@ class courseControllers {
     try {
       const courses = await Course.find({});
 
-      if (courses) {
+      if (courses.length > 0) {
         res.status(200).json({
           list: courses,
           message: "Courses list has been loaded successfully",
@@ -48,7 +48,6 @@ class courseControllers {
     const id = req.params.id;
     try {
       const courseFound = await Course.findOne({ _id: id });
-      console.log(courseFound)
       if (courseFound) {
         res.status(200).json({
           data: courseFound,
@@ -63,6 +62,7 @@ class courseControllers {
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
+
 
   // Controller: Update Specific course details
   course_details = async (req, res) => {
