@@ -48,7 +48,7 @@ class courseControllers {
     const id = req.params.id;
     try {
       const courseFound = await Course.findOne({ _id: id });
-
+      console.log(courseFound)
       if (courseFound) {
         res.status(200).json({
           data: courseFound,
@@ -70,13 +70,34 @@ class courseControllers {
     const data = req.body;
     try {
       const courseUpdated = await Course.updateOne({ _id: id }, { $set: data });
-      if (courseUpdated) {
+      if (courseUpdated?.modifiedCount === 1) {
         res.status(200).json({
           message: "Course details has been updated successfully",
         });
       } else {
         res.status(400).json({
           error: "Failed to update course details",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+
+
+
+  // Controller: Update Specific course details
+  delete = async (req, res) => {
+    const id = req.params.id;
+    try {
+      const courseDeleted = await Course.deleteOne({ _id: id });
+      if (courseDeleted.deletedCount === 1) {
+        res.status(200).json({
+          message: "Course data has been deleted successfully",
+        });
+      } else {
+        res.status(400).json({
+          error: "Failed to delete course data",
         });
       }
     } catch (error) {
