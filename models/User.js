@@ -3,6 +3,10 @@ const validator = require("validator");
 
 const userSchema = new Schema(
   {
+    name: {
+      type: String,
+      trim: true,
+    },
     email: {
       type: String,
       lowercase: true,
@@ -11,6 +15,12 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ["student", "principal", "admin"],
+      default: "student",
       required: true,
     },
   },
