@@ -29,12 +29,10 @@ class courseControllers {
       const courses = await Course.find({});
 
       if (courses) {
-        res
-          .status(200)
-          .json({
-            list: courses,
-            message: "Courses list has been loaded successfully",
-          });
+        res.status(200).json({
+          list: courses,
+          message: "Courses list has been loaded successfully",
+        });
       } else {
         res.status(400).json({
           error: "Failed to load courses list",
@@ -45,15 +43,33 @@ class courseControllers {
     }
   };
 
-  
-  // Controller: Get Specific course details
-  course_details = async(req, res) => {
+  // Controller: Load Specific course details
+  seperate_course = async (req, res) => {
+    const id = req.params.id;
+    try {
+      const courseFound = await Course.findOne({ _id: id });
+
+      if (courseFound) {
+        res.status(200).json({
+          data: courseFound,
+          message: "Individual course has been loaded successfully",
+        });
+      } else {
+        res.status(400).json({
+          error: "Failed to load individual course details",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+
+  // Controller: Update Specific course details
+  course_details = async (req, res) => {
     const id = req.params.id;
     const data = req.body;
     try {
-      const courseUpdated = await Course.updateOne(
-        { _id: id}, { $set: data }
-      );
+      const courseUpdated = await Course.updateOne({ _id: id }, { $set: data });
       if (courseUpdated) {
         res.status(200).json({
           message: "Course details has been updated successfully",
@@ -66,7 +82,7 @@ class courseControllers {
     } catch (error) {
       res.status(500).json({ error: "Internal Server Error" });
     }
-  }
+  };
 }
 
 module.exports = new courseControllers();
